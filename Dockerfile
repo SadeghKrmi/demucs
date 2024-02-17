@@ -14,13 +14,7 @@ WORKDIR /app/demucs
 
 RUN python3 -m pip install -e . --no-cache-dir
 
-# COPY . /app
-# WORKDIR /app
-# RUN python3 -m demucs -d cpu /app/audio-in/f8JTfLsyIHg_ffmpeg_noisy.wav --out /app/audio-out/
-
-
-FROM python:3.10-slim
 COPY . /app
-COPY --from=build /usr/local/lib/python3.10/ /usr/local/lib/python3.10/
-COPY --from=build /usr/local/bin/demucs /usr/local/bin/demucs
+WORKDIR /app
+RUN python3 -m demucs -d cpu /app/audio-in/f8JTfLsyIHg_ffmpeg_noisy.wav --out /app/audio-out/
 
