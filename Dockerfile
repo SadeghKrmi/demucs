@@ -21,4 +21,4 @@ COPY . /app
 
 WORKDIR /app
 
-RUN python3 -m demucs -d cpu /app/audio-in/audio_example.mp3 --two-stems=vocals --out /app/audio-out
+RUN python3 -m demucs -d cpu /app/audio-in/f8JTfLsyIHg_ffmpeg_noisy_quarter.wav --two-stems=vocals --out /app/audio-out
