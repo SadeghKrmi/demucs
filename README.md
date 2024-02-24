@@ -2,6 +2,6 @@
 
 
 ```bash
-cd /root/demucs 
-pyinstaller --add-data="/root/demucs-linux/.venv/lib/python3.10/site-packages/demucs:demucs/" separator.py
+cd /app/app 
+pyinstaller --add-data="/usr/local/lib/python3.11/site-packages/demucs:demucs/" separator.py
 ```
