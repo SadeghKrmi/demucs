@@ -9,10 +9,14 @@ import audio as ao
 import logging
 import time
 
-repo = Path("/app/models/")
-audio_file_wav = "/app/audio-in/f8JTfLsyIHg_ffmpeg_noisy.wav"
-audio_file_mp3 = "/app/audio-in/audio_example.mp3"
-audio_out_path = "/app/audio-out/"
+DEFAULT_REPO = "/app/models/"
+DEFAULT_AUDIO_OUT = "/app/audio-out/"
+DEFAULT_MODEL = "htdemucs"
+
+
+"""
+# python separator.py --input /app/audio-in/f8JTfLsyIHg_ffmpeg_noisy_quarter.wav --model htdemucs
+"""
 
 
 def parse_arguments(args):
@@ -24,12 +28,16 @@ def parse_arguments(args):
             value = args[i + 1]
             parsed_args[key] = value
             i += 2
+        elif args[i].startswith("-") and i + 1 < len(args):
+            key = args[i][1:]
+            value = args[i + 1]
+            parsed_args[key] = value
+            i += 2
         else:
-            print(f"Ignoring argument: {args[i]}")
+            # print(f"Ignoring argument: {args[i]}")
+            parsed_args["_input"] = value
             i += 1
     return parsed_args
-
-    
 
 
 class Separator:
@@ -80,6 +88,9 @@ class Separator:
 
 if __name__ == "__main__":
     options = parse_arguments(sys.argv)
-    print(options)
-    # sep = Separator(model="htdemucs", repo=None)
-    # sep.separate_from_audio(audio_file_wav)
+    # repo = Path(options.get('repo', DEFAULT_REPO))
+    model = options.get('model', DEFAULT_MODEL)
+    audio_input = options.get('input', None)
+    
+    sep = Separator(model=model, repo=None)
+    sep.separate_from_audio(audio_input)
