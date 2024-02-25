@@ -26,7 +26,7 @@ RUN python3 -m pip install -r requirements.txt
 
 WORKDIR /app/app
 
-RUN pyinstaller separator.spec
+RUN pyinstaller separator-gpu.spec
 
 
 # Stage Final
@@ -35,3 +35,13 @@ FROM python:3.11-slim AS build
 WORKDIR /app
 
 COPY --from=compile /app/app/dist/separator .
+
+COPY --from=compile /app/streamlit/ /app/streamlit/
+
+WORKDIR /app/streamlit
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8503
+
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8503", "--server.address=0.0.0.0"]
